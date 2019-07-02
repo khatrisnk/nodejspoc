@@ -1,0 +1,28 @@
+{
+  "name": "nodejspoc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khatrisnk/nodejspoc.git"
+  },
+  "keywords": [],
+  "author": "Siddhartha Khatri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khatrisnk/nodejspoc/issues"
+  },
+  "homepage": "https://github.com/khatrisnk/nodejspoc#readme",
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  }
+}
