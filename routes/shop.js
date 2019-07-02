@@ -9,7 +9,12 @@ const router = express.Router()
 router.get('/', (req, res, next) => {
     // res.sendFile(path.join(__dirname, '..', 'views', 'shop.html'))
     // res.sendFile(path.join(rootDir, 'views', 'shop.html'))
-    res.render('shop', { products: adminRoutes.products, pageTitle: 'Shop', path: "/" })
+    res.render('shop', {
+        products: adminRoutes.products,
+        pageTitle: 'Shop',
+        path: "/",
+        hasProducts: adminRoutes.products.length > 0
+    })
 })
 
 module.exports = router
