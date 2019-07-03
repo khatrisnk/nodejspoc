@@ -27,7 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 // }))
 // app.set('view engine', 'hbs')
 
-app.set('view engine', 'pug')
+// app.set('view engine', 'pug')
+app.set('view engine', 'ejs')
 app.set('views', 'views')
 
 app.use((req, res, next) => {
