@@ -6,8 +6,11 @@ const rootDir = require('../utils/path')
 const currentPath = path.join(rootDir, 'data', 'product.json')
 
 class Product {
-    constructor(title) {
-        this.title = title
+    constructor(reqBody) {
+        this.title = reqBody.title
+        this.imageUrl = reqBody.imageUrl
+        this.price = reqBody.price
+        this.description = reqBody.description
     }
 
     save() {

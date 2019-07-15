@@ -37,7 +37,7 @@ app.use((req, res, next) => {
     next()
 })
 app.use('/admin', adminRoutes.router)
-app.use(shopRoutes)
+app.use(shopRoutes.router)
 
 app.use(errorController.get40ErrorPage)
 
