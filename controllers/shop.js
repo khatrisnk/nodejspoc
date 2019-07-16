@@ -24,6 +24,17 @@ const getProductsPage = (req, res, next) => {
     })
 }
 
+const getProductDetailPage = (req, res, next) => {
+    const productId = req.params.productId
+    Product.getProductById(productId, product => {
+        res.render('shop/product-detail', {
+            path: '/products',
+            pageTitle: 'Product Detail',
+            product
+        })
+    })
+}
+
 const getCartPage = (req, res, next) => {
     res.render('shop/cart', {
         pageTitle: 'cart',
@@ -42,5 +53,6 @@ module.exports = {
     getIndexPage,
     getProductsPage,
     getCartPage,
-    getOrderPage
+    getOrderPage,
+    getProductDetailPage
 }
