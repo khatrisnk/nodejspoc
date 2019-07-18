@@ -1,4 +1,5 @@
 const Product = require('../models/product')
+const Cart = require('../models/cart')
 
 const getIndexPage = (req, res, next) => {
     // res.sendFile(path.join(__dirname, '..', 'views', 'shop.html'))
@@ -42,6 +43,13 @@ const getCartPage = (req, res, next) => {
     })
 }
 
+const postCartPage = (req, res, next) => {
+    const productId = req.body.id
+    const price = req.body.price
+    Cart.save(productId, price)
+    res.redirect('/cart')
+}
+
 const getOrderPage = (req, res, next) => {
     res.render('shop/orders', {
         pageTitle: 'orders',
@@ -54,5 +62,6 @@ module.exports = {
     getProductsPage,
     getCartPage,
     getOrderPage,
-    getProductDetailPage
+    getProductDetailPage,
+    postCartPage
 }
