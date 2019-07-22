@@ -1,8 +1,25 @@
 const Product = require('../models/product')
 
-const geAddProductPage = (req, res, next) => {
+const getAddProductPage = (req, res, next) => {
     // res.sendFile(path.join(rootDir, 'views', 'add-product.html'))
     res.render('admin/add-product', { pageTitle: 'Add Product', path: "/admin/add-product" })
+}
+
+const getEditProductPage = (req, res, next) => {
+    // res.sendFile(path.join(rootDir, 'views', 'add-product.html'))
+    const editMode = req.query.edit
+    if(editMode === 'true') {
+        Product.getProductById(req.params.productId, product => {
+            res.render('admin/edit-product', {
+                pageTitle: 'Edit Product',
+                path: "/admin/edit-product",
+                product
+            })
+        })
+    } else {
+        res.redirect('/')
+    }
+    
 }
 
 const postProduct = (req, res, next) => {
@@ -29,7 +46,8 @@ const getProductsPage = (req, res, next) => {
 }
 
 module.exports = {
-    geAddProductPage,
+    getAddProductPage,
     postProduct,
-    getProductsPage
+    getProductsPage,
+    getEditProductPage
 }
