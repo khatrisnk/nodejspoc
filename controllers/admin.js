@@ -34,12 +34,24 @@ const postProduct = (req, res, next) => {
     res.redirect('/')
 }
 
+const editProduct = (req, res, next) => {
+    const reqBody = {
+        title: req.body.title,
+        imageUrl: req.body.imageUrl,
+        price: req.body.price,
+        description: req.body.description
+    }
+    const product = new Product(reqBody)
+    product.update(req.body.productId)
+    res.redirect('/admin/products')
+}
+
 const getProductsPage = (req, res, next) => {
     const products = Product.getProducts(products => {
         res.render('admin/products', {
             prods: products,
             pageTitle: 'Admin Products',
-            path: "admin/products",
+            path: "/admin/products",
             hasProducts: products.length > 0
         })
     })
@@ -49,5 +61,6 @@ module.exports = {
     getAddProductPage,
     postProduct,
     getProductsPage,
-    getEditProductPage
+    getEditProductPage,
+    editProduct
 }

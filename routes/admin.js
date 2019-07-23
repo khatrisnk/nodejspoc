@@ -8,6 +8,7 @@ const router = express.Router()
 router.get('/add-product', adminController.getAddProductPage)
 router.get('/edit-product/:productId', adminController.getEditProductPage)
 router.post('/product', adminController.postProduct)
+router.post('/edit-product', adminController.editProduct)
 router.get('/products', adminController.getProductsPage)
 
 module.exports = { 

@@ -18,7 +18,6 @@ const getProductsFromFile = cb => {
 
 class Product {
     constructor(reqBody) {
-        this.id = uuidv4()
         this.title = reqBody.title
         this.imageUrl = reqBody.imageUrl
         this.price = reqBody.price
@@ -27,8 +26,26 @@ class Product {
 
     save() {
         getProductsFromFile(products => {
+            this.id = uuidv4()
             products.push(this)
             fs.writeFile(currentPath, JSON.stringify(products), (err) => {
+                console.log(err)
+            })
+        })
+    }
+
+    update(productId) {
+        getProductsFromFile(products => {
+            const updatedProducts = products.map(product => {
+                if(product.id === productId) {
+                    product.title = this.title
+                    product.imageUrl = this.imageUrl
+                    product.price = this.price
+                    product.description = this.description
+                }
+                return product
+            })
+            fs.writeFile(currentPath, JSON.stringify(updatedProducts), (err) => {
                 console.log(err)
             })
         })
