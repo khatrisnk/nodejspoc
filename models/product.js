@@ -3,6 +3,7 @@ const fs = require('fs')
 const uuidv4 = require('uuid/v4');
 
 const rootDir = require('../utils/path')
+const Cart = require('./cart')
 
 const currentPath = path.join(rootDir, 'data', 'product.json')
 
@@ -47,6 +48,24 @@ class Product {
             })
             fs.writeFile(currentPath, JSON.stringify(updatedProducts), (err) => {
                 console.log(err)
+            })
+        })
+    }
+
+    static deleteProductById(id) {
+        getProductsFromFile(products => {
+            const productIndex = products.findIndex(product => {
+                return product.id === id
+            })
+            const updatedProducts = [
+                ...products.slice(0, productIndex),
+                ...products.slice(productIndex+1, products.length)
+            ]
+            fs.writeFile(currentPath, JSON.stringify(updatedProducts), (err) => {
+                console.log(err)
+                if(!err) {
+                    Cart.deleteCartById(id, products[productIndex].price)
+                }
             })
         })
     }

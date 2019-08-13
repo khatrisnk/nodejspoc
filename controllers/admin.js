@@ -22,6 +22,11 @@ const getEditProductPage = (req, res, next) => {
     
 }
 
+const postDeleteProduct = (req, res, next) => {
+    Product.deleteProductById(req.body.productId)
+    res.redirect('/admin/products')
+}
+
 const postProduct = (req, res, next) => {
     const reqBody = {
         title: req.body.title,
@@ -62,5 +67,6 @@ module.exports = {
     postProduct,
     getProductsPage,
     getEditProductPage,
-    editProduct
+    editProduct,
+    postDeleteProduct
 }

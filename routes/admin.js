@@ -10,6 +10,7 @@ router.get('/edit-product/:productId', adminController.getEditProductPage)
 router.post('/product', adminController.postProduct)
 router.post('/edit-product', adminController.editProduct)
 router.get('/products', adminController.getProductsPage)
+router.post('/delete-product', adminController.postDeleteProduct)
 
 module.exports = { 
     router: router
