@@ -12,6 +12,8 @@ const path = require('path')
 const expressHbs = require('express-handlebars')
 
 const rootDir = require('./utils/path')
+
+const mongoConnect = require('./utils/database').mongoConnect
 const errorController = require('./controllers/error')
 const adminRoutes = require('./routes/admin')
 const shopRoutes = require('./routes/shop')
@@ -40,5 +42,6 @@ app.use('/admin', adminRoutes.router)
 app.use(shopRoutes.router)
 
 app.use(errorController.get40ErrorPage)
-
-app.listen(3000)
+mongoConnect(() => {
+    app.connect(3000)
+})
