@@ -9,12 +9,17 @@ const getEditProductPage = (req, res, next) => {
     // res.sendFile(path.join(rootDir, 'views', 'add-product.html'))
     const editMode = req.query.edit
     if(editMode === 'true') {
-        Product.getProductById(req.params.productId, product => {
+        Product
+        .findById(req.params.productId)
+        .then(product => {
             res.render('admin/edit-product', {
                 pageTitle: 'Edit Product',
                 path: "/admin/edit-product",
                 product
             })
+        })
+        .catch(err => {
+            console.log(err)
         })
     } else {
         res.redirect('/')
@@ -23,8 +28,15 @@ const getEditProductPage = (req, res, next) => {
 }
 
 const postDeleteProduct = (req, res, next) => {
-    Product.deleteProductById(req.body.productId)
-    res.redirect('/admin/products')
+    Product
+        .deleteById(req.body.productId)
+        .then(result => {
+            console.log('Product deleted successfully!!!')
+            res.redirect('/admin/products')
+        })
+        .catch(err => {
+            console.log(err)
+        })
 }
 
 const postProduct = (req, res, next) => {
@@ -46,15 +58,22 @@ const postProduct = (req, res, next) => {
 }
 
 const editProduct = (req, res, next) => {
-    const reqBody = {
-        title: req.body.title,
-        imageUrl: req.body.imageUrl,
-        price: req.body.price,
-        description: req.body.description
-    }
-    const product = new Product(reqBody)
-    product.update(req.body.productId)
-    res.redirect('/admin/products')
+    const product = new Product(
+        req.body.title,
+        req.body.price,
+        req.body.description,
+        req.body.imageUrl,
+        req.body.productId
+    )
+    product
+        .save()
+        .then(result => {
+            console.log('Product updated successfully!!!')
+            res.redirect('/admin/products')
+        })
+        .catch(err => {
+            console.log(err)
+        })
 }
 
 const getProductsPage = (req, res, next) => {

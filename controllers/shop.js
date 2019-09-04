@@ -37,13 +37,18 @@ const getProductsPage = (req, res, next) => {
 
 const getProductDetailPage = (req, res, next) => {
     const productId = req.params.productId
-    Product.getProductById(productId, product => {
-        res.render('shop/product-detail', {
-            path: '/products',
-            pageTitle: 'Product Detail',
-            product
+    Product
+        .findById(productId)
+        .then(product => {
+            res.render('shop/product-detail', {
+                path: '/products',
+                pageTitle: 'Product Detail',
+                product
+            })
         })
-    })
+        .catch(err => {
+            console.log(err)
+        })
 }
 
 const getCartPage = (req, res, next) => {
