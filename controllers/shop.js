@@ -4,25 +4,35 @@ const Cart = require('../models/cart')
 const getIndexPage = (req, res, next) => {
     // res.sendFile(path.join(__dirname, '..', 'views', 'shop.html'))
     // res.sendFile(path.join(rootDir, 'views', 'shop.html'))
-    const products = Product.getProducts(products => {
-        res.render('shop/index', {
-            prods: products,
-            pageTitle: 'Shop',
-            path: "/",
-            hasProducts: products.length > 0
+    Product
+        .fetchAll()
+        .then(products => {
+            res.render('shop/index', {
+                prods: products,
+                pageTitle: 'Shop',
+                path: "/",
+                hasProducts: products.length > 0
+            })
         })
-    })
+        .catch(err => {
+            console.log(err)
+        })
 }
 
 const getProductsPage = (req, res, next) => {
-    const products = Product.getProducts(products => {
-        res.render('shop/product-list', {
-            prods: products,
-            pageTitle: 'All Products',
-            path: "/products",
-            hasProducts: products.length > 0
+    Product
+        .fetchAll()
+        .then(products => {
+            res.render('shop/product-list', {
+                prods: products,
+                pageTitle: 'All Products',
+                path: "/products",
+                hasProducts: products.length > 0
+            })
         })
-    })
+        .catch(err => {
+            console.log(err)
+        })
 }
 
 const getProductDetailPage = (req, res, next) => {
