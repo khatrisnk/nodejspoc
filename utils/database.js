@@ -18,25 +18,31 @@
 
 // module.exports = sequelize
 
-
-const MongoClient = require('mongodb').MongoClient
-const uri = "mongodb+srv://siddhartha:Sid@20184@cluster0-nximv.mongodb.net/shop?retryWrites=true&w=majority"
-const client = new MongoClient(uri, { useNewUrlParser: true })
+let _db;
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://siddhartha:sid1234@cluster0-nximv.mongodb.net/shop?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
 
 const mongoConnect = callback => {
-  client
-    .connect()
-    .then(() => {
-      console.log('Connected to shop mongodb!!!')
+  client.connect(err => {
+    // perform actions on the collection object
+    if(!err) {
+      console.log('connected to mongo db!!!')
+      _db = client.db()
       callback()
-    })
-    .catch(err => {
-      console.log(err)
-    })
-}
+    }
+    console.log(err)
+  });
+};
 
-module.exports = {
-  client,
-  mongoConnect
-}
+const getDb = () => {
+  if (_db) {
+    return _db;
+  }
+  throw 'No database found!';
+};
+
+exports.mongoConnect = mongoConnect;
+exports.getDb = getDb;
+
 

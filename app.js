@@ -13,7 +13,7 @@ const expressHbs = require('express-handlebars')
 
 const rootDir = require('./utils/path')
 
-const mongoConnect = require('./utils/database').mongoConnect
+const database = require('./utils/database')
 const errorController = require('./controllers/error')
 const adminRoutes = require('./routes/admin')
 const shopRoutes = require('./routes/shop')
@@ -35,13 +35,14 @@ app.set('view engine', 'ejs')
 app.set('views', 'views')
 
 app.use((req, res, next) => {
-    // console.log('This custom middleware call every time')
+    console.log('This custom middleware call every time')
     next()
 })
 app.use('/admin', adminRoutes.router)
 app.use(shopRoutes.router)
 
 app.use(errorController.get40ErrorPage)
-mongoConnect(() => {
-    app.connect(3000)
+database.mongoConnect(() => {
+    console.log('localhost listening on port 3000!!!')
+    app.listen(3000)
 })
