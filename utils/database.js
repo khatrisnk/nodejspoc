@@ -20,7 +20,8 @@
 
 let _db;
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://siddhartha:sid1234@cluster0-nximv.mongodb.net/shop?retryWrites=true&w=majority";
+let uri = "mongodb+srv://siddhartha:sid1234@cluster0-nximv.mongodb.net/shop?retryWrites=true&w=majority";
+uri = 'mongodb://localhost/shop'
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
 const mongoConnect = callback => {
@@ -30,8 +31,9 @@ const mongoConnect = callback => {
       console.log('connected to mongo db!!!')
       _db = client.db()
       callback()
+    } else {
+      console.log('Mongodb connection Error: ', err)
     }
-    console.log(err)
   });
 };
 

@@ -14,6 +14,9 @@ const expressHbs = require('express-handlebars')
 const rootDir = require('./utils/path')
 
 const database = require('./utils/database')
+
+const Users = require('./models/Users')
+
 const errorController = require('./controllers/error')
 const adminRoutes = require('./routes/admin')
 const shopRoutes = require('./routes/shop')
@@ -36,7 +39,15 @@ app.set('views', 'views')
 
 app.use((req, res, next) => {
     console.log('This custom middleware call every time')
-    next()
+    Users
+        .findById('5d715aead79a100bd6ccbcfb')
+        .then(result => {
+            req.user = result
+            next()
+        })
+        .catch(err => {
+            console.log(err)
+        })
 })
 app.use('/admin', adminRoutes.router)
 app.use(shopRoutes.router)
