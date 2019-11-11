@@ -40,8 +40,9 @@ app.set('views', 'views')
 app.use((req, res, next) => {
     console.log('This custom middleware call every time')
     Users
-        .findById('5d715aead79a100bd6ccbcfb')
+        .findById('5dc9a24a5c679d6814f03dd1')
         .then(result => {
+            // Just keeping a reference of a user to request object
             req.user = result
             next()
         })

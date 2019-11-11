@@ -44,7 +44,9 @@ const postProduct = (req, res, next) => {
         req.body.title,
         req.body.price,
         req.body.description,
-        req.body.imageUrl
+        req.body.imageUrl,
+        null,
+        req.user._id
     )
     product
         .save()
@@ -63,7 +65,8 @@ const editProduct = (req, res, next) => {
         req.body.price,
         req.body.description,
         req.body.imageUrl,
-        req.body.productId
+        req.body.productId,
+        req.user._id
     )
     product
         .save()
