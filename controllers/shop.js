@@ -51,46 +51,67 @@ const getProductDetailPage = (req, res, next) => {
         })
 }
 
+const postDeleteCartItem = (req, res, next) => {
+    req.user
+        .deleteCartItem(req.body.productId)
+        .then(result => {
+            res.redirect('/cart')
+        })
+        .catch(err => console.log(err))
+}
+
 const getCartPage = (req, res, next) => {
-    Cart.getCart(cart => {
-        Product.getProducts(products => {
-            const cartProducts = []
-            for (product of products) {
-                const cartProductData = cart.products.find(
-                    prod => prod.id === product.id
-                )
-                if (cartProductData) {
-                    cartProducts.push({ productData: product, qty: cartProductData.qty })
-                }
-            }
+    req.user
+        .getCart()
+        .then(products => {
             res.render('shop/cart', {
                 path: '/cart',
                 pageTitle: 'Your Cart',
-                products: cartProducts
+                products: products
             })
         })
-    })
+        .catch(err => console.log(err))
 }
 
 const postCartPage = (req, res, next) => {
     const productId = req.body.id
-    const price = req.body.price
-    Cart.save(productId, price)
-    res.redirect('/cart')
+    req.user
+        .addToCart(productId)
+        .then(result => {
+            res.redirect('/cart')
+        })
+        .catch(err => console.log(err))
+}
+
+const postCreateOrder = (req, res, next) => {
+    req.user   
+        .addOrder()
+        .then(() => {
+            res.redirect('/orders')
+        })
+        .catch(err => console.log(err))
 }
 
 const getOrderPage = (req, res, next) => {
-    res.render('shop/orders', {
-        pageTitle: 'orders',
-        path: "/orders",
-    })
+    req.user
+        .getOrders()
+        .then(orders => {
+            console.log(orders)
+            res.render('shop/orders', {
+                pageTitle: 'orders',
+                path: "/orders",
+                orders
+            })
+        })
 }
 
 module.exports = {
     getIndexPage,
     getProductsPage,
     getCartPage,
-    getOrderPage,
     getProductDetailPage,
-    postCartPage
+    postCartPage,
+    postDeleteCartItem,
+    postCreateOrder,
+    getOrderPage
 }

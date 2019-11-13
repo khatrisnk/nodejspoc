@@ -11,6 +11,8 @@ router.get('/products', shopController.getProductsPage)
 router.get('/products/:productId', shopController.getProductDetailPage)
 router.get('/cart', shopController.getCartPage)
 router.post('/add-to-cart', shopController.postCartPage)
+router.post('/cart-delete-item', shopController.postDeleteCartItem)
+router.post('/create-order', shopController.postCreateOrder)
 router.get('/orders', shopController.getOrderPage)
 
 module.exports = {

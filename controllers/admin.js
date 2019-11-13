@@ -32,6 +32,7 @@ const postDeleteProduct = (req, res, next) => {
         .deleteById(req.body.productId)
         .then(result => {
             console.log('Product deleted successfully!!!')
+            req.user.deleteCartItem(req.body.productId)
             res.redirect('/admin/products')
         })
         .catch(err => {

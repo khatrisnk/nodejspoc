@@ -15,7 +15,7 @@ const rootDir = require('./utils/path')
 
 const database = require('./utils/database')
 
-const Users = require('./models/Users')
+const Users = require('./models/users')
 
 const errorController = require('./controllers/error')
 const adminRoutes = require('./routes/admin')
@@ -38,12 +38,12 @@ app.set('view engine', 'ejs')
 app.set('views', 'views')
 
 app.use((req, res, next) => {
-    console.log('This custom middleware call every time')
+    // console.log('This custom middleware call every time')
     Users
         .findById('5dc9a24a5c679d6814f03dd1')
         .then(result => {
             // Just keeping a reference of a user to request object
-            req.user = result
+            req.user = new Users(result.name, result.email, result.cart, result._id)
             next()
         })
         .catch(err => {
