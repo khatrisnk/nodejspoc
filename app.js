@@ -40,10 +40,10 @@ app.set('views', 'views')
 app.use((req, res, next) => {
     // console.log('This custom middleware call every time')
     Users
-        .findById('5dc9a24a5c679d6814f03dd1')
-        .then(result => {
+        .findById('5dcc577ddab5e07f1d64ea62')
+        .then(user => {
             // Just keeping a reference of a user to request object
-            req.user = new Users(result.name, result.email, result.cart, result._id)
+            req.user = user
             next()
         })
         .catch(err => {
@@ -56,5 +56,15 @@ app.use(shopRoutes.router)
 app.use(errorController.get40ErrorPage)
 database.mongoConnect(() => {
     console.log('localhost listening on port 3000!!!')
+    Users.findOne()
+        .then(user => {
+            if (!user) {
+                new Users({
+                    name: 'Siddhartha',
+                    email: 'khatri.snk@gmail.com',
+                    cart: { items: [] }
+                }).save()
+            }
+        })
     app.listen(3000)
 })
