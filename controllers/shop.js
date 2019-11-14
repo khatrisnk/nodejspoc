@@ -117,7 +117,6 @@ const getOrderPage = (req, res, next) => {
     Order
         .find()
         .then(orders => {
-            console.log(orders)
             res.render('shop/orders', {
                 pageTitle: 'orders',
                 path: "/orders",

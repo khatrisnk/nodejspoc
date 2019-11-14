@@ -20,6 +20,7 @@ const Users = require('./models/users')
 const errorController = require('./controllers/error')
 const adminRoutes = require('./routes/admin')
 const shopRoutes = require('./routes/shop')
+const authRoutes = require('./routes/auth')
 
 const app = express()
 
@@ -50,6 +51,8 @@ app.use((req, res, next) => {
             console.log(err)
         })
 })
+
+app.use(authRoutes.router)
 app.use('/admin', adminRoutes.router)
 app.use(shopRoutes.router)
 
