@@ -12,6 +12,7 @@ const path = require('path')
 const expressHbs = require('express-handlebars')
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session)
+const csurf = require('csurf')
 
 const rootDir = require('./utils/path')
 const database = require('./utils/database')
@@ -19,11 +20,14 @@ const database = require('./utils/database')
 const Users = require('./models/users')
 
 const errorController = require('./controllers/error')
+
 const adminRoutes = require('./routes/admin')
 const shopRoutes = require('./routes/shop')
 const authRoutes = require('./routes/auth')
 
 const { MONGO_DB_LOCAL } = require('./constants')
+
+const csrfMiddleware = require('./middlewares/csrf')
 
 const app = express()
 
@@ -40,6 +44,7 @@ app.use(session({
     saveUninitialized: false,
     store
 }))
+app.use(csurf())
 
 // app.engine('hbs', expressHbs({
 //     layoutsDir: 'views/layouts',
@@ -66,6 +71,7 @@ app.use((req, res, next) => {
             console.log(err)
         })
 })
+app.use(csrfMiddleware)
 
 app.use(authRoutes.router)
 app.use('/admin', adminRoutes.router)
@@ -74,15 +80,5 @@ app.use(shopRoutes.router)
 app.use(errorController.get40ErrorPage)
 database.mongoConnect(() => {
     console.log('localhost listening on port 3000!!!')
-    Users.findOne()
-        .then(user => {
-            if (!user) {
-                new Users({
-                    name: 'Siddhartha',
-                    email: 'khatri.snk@gmail.com',
-                    cart: { items: [] }
-                }).save()
-            }
-        })
     app.listen(3000)
 })

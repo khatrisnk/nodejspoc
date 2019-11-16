@@ -7,8 +7,12 @@
    <%- include('../includes/navigation.ejs') %>
 
     <main>
-        <form class="app-form" action="/login" method="POST">
+        <form class="app-form" action="/signup" method="POST">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            <div class="form-control">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name">
+            </div>
             <div class="form-control">
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email">
@@ -17,8 +21,12 @@
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password">
             </div>
+            <div class="form-control">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" name="confirmpassword" id="confirm-password">
+            </div>
 
-            <button class="btn" type="submit">Login</button>
+            <button class="btn" type="submit">Sign Up</button>
         </form>
     </main>
 <%- include('../includes/end.ejs') %>

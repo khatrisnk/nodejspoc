@@ -90,7 +90,7 @@ const editProduct = (req, res, next) => {
 
 const getProductsPage = (req, res, next) => {
     Product
-        .find()
+        .find({ userId: req.user._id})
         .then(products => {
             res.render('admin/products', {
                 prods: products,

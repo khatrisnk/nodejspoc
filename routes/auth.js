@@ -5,6 +5,8 @@ const router = express.Router()
 
 router.get('/login', authController.getLoginPage)
 router.post('/login', authController.postLogin)
+router.get('/signup', authController.getSignUpPage)
+router.post('/signup', authController.postSignUp)
 router.post('/logout', authController.postLogout)
 
 module.exports = { router }

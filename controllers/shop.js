@@ -11,8 +11,7 @@ const getIndexPage = (req, res, next) => {
                 prods: products,
                 pageTitle: 'Shop',
                 path: "/",
-                hasProducts: products.length > 0,
-                isAuthenticated: req.session.isLoggedIn
+                hasProducts: products.length > 0
             })
         })
         .catch(err => {
@@ -28,8 +27,7 @@ const getProductsPage = (req, res, next) => {
                 prods: products,
                 pageTitle: 'All Products',
                 path: "/products",
-                hasProducts: products.length > 0,
-                isAuthenticated: req.session.isLoggedIn
+                hasProducts: products.length > 0
             })
         })
         .catch(err => {
@@ -45,8 +43,7 @@ const getProductDetailPage = (req, res, next) => {
             res.render('shop/product-detail', {
                 path: '/products',
                 pageTitle: 'Product Detail',
-                product,
-                isAuthenticated: req.session.isLoggedIn
+                product
             })
         })
         .catch(err => {
@@ -71,8 +68,7 @@ const getCartPage = (req, res, next) => {
             res.render('shop/cart', {
                 path: '/cart',
                 pageTitle: 'Your Cart',
-                products: user.cart.items,
-                isAuthenticated: req.session.isLoggedIn
+                products: user.cart.items
             })
         })
         .catch(err => console.log(err))
@@ -119,13 +115,12 @@ const postCreateOrder = (req, res, next) => {
 
 const getOrderPage = (req, res, next) => {
     Order
-        .find()
+        .find({ 'user.userId': req.user._id })
         .then(orders => {
             res.render('shop/orders', {
                 pageTitle: 'orders',
                 path: "/orders",
-                orders,
-                isAuthenticated: req.session.isLoggedIn
+                orders
             })
         })
 }
