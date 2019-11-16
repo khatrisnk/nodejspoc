@@ -2,7 +2,11 @@ const Product = require('../models/product')
 
 const getAddProductPage = (req, res, next) => {
     // res.sendFile(path.join(rootDir, 'views', 'add-product.html'))
-    res.render('admin/add-product', { pageTitle: 'Add Product', path: "/admin/add-product" })
+    res.render('admin/add-product', {
+        pageTitle: 'Add Product',
+        path: "/admin/add-product",
+        isAuthenticated: req.session.isLoggedIn
+    })
 }
 
 const getEditProductPage = (req, res, next) => {
@@ -15,7 +19,8 @@ const getEditProductPage = (req, res, next) => {
             res.render('admin/edit-product', {
                 pageTitle: 'Edit Product',
                 path: "/admin/edit-product",
-                product
+                product,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => {
@@ -91,7 +96,8 @@ const getProductsPage = (req, res, next) => {
                 prods: products,
                 pageTitle: 'Admin Products',
                 path: "/admin/products",
-                hasProducts: products.length > 0
+                hasProducts: products.length > 0,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => {

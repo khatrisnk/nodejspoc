@@ -10,9 +10,10 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
 const expressHbs = require('express-handlebars')
+const session = require('express-session')
+const MongoDBStore = require('connect-mongodb-session')(session)
 
 const rootDir = require('./utils/path')
-
 const database = require('./utils/database')
 
 const Users = require('./models/users')
@@ -22,10 +23,23 @@ const adminRoutes = require('./routes/admin')
 const shopRoutes = require('./routes/shop')
 const authRoutes = require('./routes/auth')
 
+const { MONGO_DB_LOCAL } = require('./constants')
+
 const app = express()
+
+const store = new MongoDBStore({
+    uri: MONGO_DB_LOCAL,
+    collection: 'session'
+})
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(session({
+    secret: 'My Secret',
+    resave: false,
+    saveUninitialized: false,
+    store
+}))
 
 // app.engine('hbs', expressHbs({
 //     layoutsDir: 'views/layouts',
@@ -39,15 +53,16 @@ app.set('view engine', 'ejs')
 app.set('views', 'views')
 
 app.use((req, res, next) => {
-    // console.log('This custom middleware call every time')
-    Users
-        .findById('5dcc577ddab5e07f1d64ea62')
+    console.log('This custom middleware call every time')
+    if (!req.session.user) {
+        return next()
+    }
+    Users.findById(req.session.user._id)
         .then(user => {
-            // Just keeping a reference of a user to request object
             req.user = user
             next()
         })
-        .catch(err => {
+        .catch((err) => {
             console.log(err)
         })
 })

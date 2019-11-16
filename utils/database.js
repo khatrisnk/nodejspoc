@@ -48,7 +48,8 @@
 // exports.getDb = getDb;
 
 const mongoose = require('mongoose')
-const uri = 'mongodb://localhost/shop'
+const { MONGO_DB_LOCAL } = require('../constants')
+const uri = MONGO_DB_LOCAL
 
 const mongoConnect = callback => {
   mongoose.connect(uri)

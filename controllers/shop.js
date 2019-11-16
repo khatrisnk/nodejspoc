@@ -11,7 +11,8 @@ const getIndexPage = (req, res, next) => {
                 prods: products,
                 pageTitle: 'Shop',
                 path: "/",
-                hasProducts: products.length > 0
+                hasProducts: products.length > 0,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => {
@@ -27,7 +28,8 @@ const getProductsPage = (req, res, next) => {
                 prods: products,
                 pageTitle: 'All Products',
                 path: "/products",
-                hasProducts: products.length > 0
+                hasProducts: products.length > 0,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => {
@@ -43,7 +45,8 @@ const getProductDetailPage = (req, res, next) => {
             res.render('shop/product-detail', {
                 path: '/products',
                 pageTitle: 'Product Detail',
-                product
+                product,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => {
@@ -68,7 +71,8 @@ const getCartPage = (req, res, next) => {
             res.render('shop/cart', {
                 path: '/cart',
                 pageTitle: 'Your Cart',
-                products: user.cart.items
+                products: user.cart.items,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => console.log(err))
@@ -120,7 +124,8 @@ const getOrderPage = (req, res, next) => {
             res.render('shop/orders', {
                 pageTitle: 'orders',
                 path: "/orders",
-                orders
+                orders,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
 }
